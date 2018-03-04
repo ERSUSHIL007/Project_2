@@ -1,0 +1,55 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>$q_Service</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <script src="Script/angular.min.js"></script>
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("$Q_Controller", function($scope, $q) {
+
+            $scope.sno = 100;
+
+            $scope.fun1 = function(num) {
+                //Use defer() method of $q service
+                var defered = $q.defer();
+
+                if (angular.isNumber(num)) {
+                    num++;
+                    //Use the resolve() method of $q service to get success value
+                    defered.resolve(num);
+                } else {
+                    //Use the reject() method of $q service to get failure value
+                    defered.reject("Error !");
+                }
+
+                //promise property contains either resolve or reject value
+                return defered.promise;
+            };
+
+            $scope.fun1($scope.sno).then(function(value) {
+                alert(value);
+
+                $scope.fun1(100).then(function(value) {
+                    alert(value);
+
+                    $scope.fun1(109).then(function(value) {
+                        alert(value);
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+
+<body ng-app="myApp" ng-controller="$Q_Controller">
+    <div class="jumbotron">
+        <h1>$q_Service In AngularJs</h1>
+    </div>
+</body>
+
+</html>
